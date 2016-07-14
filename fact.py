@@ -3,24 +3,26 @@ import inspect
 import sys
 
 
+def value_check(n):
+    if n < 0:
+        raise ValueError('{} is incorrect number for factorial calculation'.
+                         format(n))
+
+
 def fact_00(n):
     from math import factorial
     return factorial(n)
 
 
 def fact_01(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n == 0:
         return 1
     return reduce(lambda _, _2: _*_2, xrange(1, n + 1))
 
 
 def fact_02(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     res = 1
     for _ in xrange(1, n + 1):
         res *= _
@@ -28,18 +30,14 @@ def fact_02(n):
 
 
 def fact_03(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n == 0:
         return 1
     return n*fact_03(n - 1)
 
 
-def fact_04_1(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+def fact_04_01(n):
+    value_check(n)
     res = 1
     while n != 0:
         res *= n
@@ -47,10 +45,8 @@ def fact_04_1(n):
     return res
 
 
-def fact_04_2(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+def fact_04_02(n):
+    value_check(n)
     res = 1
     i = 1
     while i <= n:
@@ -60,27 +56,21 @@ def fact_04_2(n):
 
 
 def fact_05_01(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n == 0:
         return 1
     return eval('*'.join(str(_) for _ in xrange(1, n + 1)))
 
 
 def fact_05_02(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n == 0:
         return 1
     return eval('*'.join(map(str, xrange(1, n + 1))))
 
 
 def fact_06_01(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n == 0:
         return 1
     res = 1
@@ -94,9 +84,7 @@ def fact_06_01(n):
 
 
 def fact_06_02(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     res = 1
     seq = iter(xrange(n, 0, -1))
     i = next(seq, 1)
@@ -107,9 +95,7 @@ def fact_06_02(n):
 
 
 def fact_07(n):
-    if n < 0:
-        raise ValueError('{} is incorrect number for factorial calculation'.
-                         format(n))
+    value_check(n)
     if n < 2:
         return 1
     i = n%2 + 1
@@ -122,7 +108,7 @@ def fact_07(n):
 if __name__ == '__main__':
     output_str = 'Function: {}; i: {}, result: {}'
     fset = [obj for name, obj in inspect.getmembers(sys.modules[__name__]) if
-            inspect.isfunction(obj)]
+            inspect.isfunction(obj) and obj.__name__.startswith('fact')]
     for func in fset:
         for _ in (0, 1, 5, 10):
             print(output_str.format(func.__name__, _, func(_)))
